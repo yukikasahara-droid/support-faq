@@ -1,0 +1,84 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ArticleRow from '../../components/ArticleRow.astro';
+import Feedback from '../../components/Feedback.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import BrandIcon from '../../components/BrandIcon.astro';
+import { url } from '../../lib/url';
+import { getCategory } from '../../data/categories';
+import { getPublishedFaq, getRelated, formatDate } from '../../lib/faq';
+
+export async function getStaticPaths() {
+  const faqs = await getPublishedFaq();
+  return faqs.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const category = getCategory(entry.data.category);
+const faqs = await getPublishedFaq();
+const related = getRelated(entry, faqs, 4);
+const updated = formatDate(entry.data.updated);
+
+// 構造化データ（FAQPage）— 検索エンジン向け
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: entry.data.title,
+      acceptedAnswer: { '@type': 'Answer', text: entry.data.summary },
+    },
+  ],
+};
+---
+<BaseLayout title={entry.data.title} description={entry.data.summary} ogType="article">
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(jsonLd)} />
+
+  <section class="section section--tight">
+    <div class="container" style="max-width: var(--maxw-prose);">
+      <Breadcrumbs
+        items={[
+          { label: 'ホーム', href: '/' },
+          { label: category.name, href: `/category/${category.id}` },
+          { label: entry.data.title },
+        ]}
+      />
+
+      <article data-pagefind-body data-pagefind-filter={`カテゴリ:${category.name}`}>
+        <header class="article-header">
+          <h1 class="article-title">{entry.data.title}</h1>
+          <div class="article-meta" data-pagefind-ignore>
+            <a class="chip" href={url(`/category/${category.id}`)}>
+              <BrandIcon name={category.icon} size={14} />{category.name}
+            </a>
+            {updated && <span>最終更新: {updated}</span>}
+          </div>
+        </header>
+
+        <div class="prose">
+          <Content />
+        </div>
+
+        <div data-pagefind-ignore>
+          <Feedback />
+          {related.length > 0 && (
+            <section class="related">
+              <h2 class="related__title">関連するご質問</h2>
+              <div class="article-list">
+                {related.map((e) => <ArticleRow entry={e} />)}
+              </div>
+            </section>
+          )}
+          <ContactCta />
+        </div>
+      </article>
+    </div>
+  </section>
+</BaseLayout>

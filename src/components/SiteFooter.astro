@@ -1,0 +1,42 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import { url } from '../lib/url';
+import { categories } from '../data/categories';
+const year = new Date().getFullYear();
+const footerCats = categories.slice(0, 5);
+---
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="footer-brand">
+      <BrandLogo href="/" subtitle="よくあるご質問" />
+      <p class="footer-brand__tag">
+        Solving human loneliness through communication technology.
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col__title">カテゴリ</p>
+      <ul>
+        {footerCats.map((c) => (
+          <li><a href={url(`/category/${c.id}`)}>{c.name}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col__title">サポート</p>
+      <ul>
+        <li><a href={url('/search')}>FAQを検索</a></li>
+        <li><a href={url('/#contact')}>お問い合わせ</a></li>
+        <li><a href={url('/#categories')}>カテゴリ一覧</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="footer-bottom">
+      <span>© {year} Ory Lab Inc.</span>
+      <span class="footer-sample-note">サンプルサイト（提案用たたき台）</span>
+    </div>
+  </div>
+</footer>

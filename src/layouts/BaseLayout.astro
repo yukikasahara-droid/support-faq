@@ -1,0 +1,71 @@
+---
+// 自ホストの Noto Sans JP（外部リクエスト無し＝堅牢・プライバシー配慮）
+import '@fontsource/noto-sans-jp/300.css';
+import '@fontsource/noto-sans-jp/400.css';
+import '@fontsource/noto-sans-jp/500.css';
+import '@fontsource/noto-sans-jp/700.css';
+import '../styles/global.css';
+
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const siteName = 'Ory サポート';
+const fullTitle = `${title}｜${siteName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+
+// このデプロイは「リンクを知る人だけ」向けの未収載サンプル。
+// 検索エンジンに載せないため全ページ noindex。本番公開時は false にする。
+const SAMPLE_UNLISTED = true;
+const robotsContent = SAMPLE_UNLISTED || noindex ? 'noindex,nofollow' : 'index,follow';
+---
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={robotsContent} />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <!-- OGP / Twitter -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="ja_JP" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">本文へスキップ</a>
+    <div class="brand-topbar" aria-hidden="true"></div>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

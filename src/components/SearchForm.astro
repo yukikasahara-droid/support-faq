@@ -1,0 +1,30 @@
+---
+import BrandIcon from './BrandIcon.astro';
+import { url } from '../lib/url';
+interface Props {
+  value?: string;
+  autofocus?: boolean;
+  placeholder?: string;
+}
+const {
+  value = '',
+  autofocus = false,
+  placeholder = 'キーワードで検索（例：電源が入らない）',
+} = Astro.props;
+---
+<form class="searchbox" role="search" action={url('/search')} method="get">
+  <div class="searchbox__field">
+    <BrandIcon name="search" class="searchbox__icon" />
+    <input
+      class="searchbox__input"
+      type="search"
+      name="q"
+      value={value}
+      placeholder={placeholder}
+      aria-label="よくあるご質問の中を検索"
+      autocomplete="off"
+      autofocus={autofocus}
+    />
+    <button class="searchbox__submit" type="submit">検索</button>
+  </div>
+</form>

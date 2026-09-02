@@ -1,0 +1,21 @@
+---
+import BrandIcon from './BrandIcon.astro';
+/**
+ * お問い合わせへの導線。リンク先は暫定（#）。
+ * 実運用では問い合わせフォーム/メール/チャット窓口のURLに差し替える。
+ */
+interface Props {
+  href?: string;
+}
+const { href = '#' } = Astro.props;
+---
+<section class="contact-cta" id="contact">
+  <div class="contact-cta__text">
+    <h2>解決しませんでしたか？</h2>
+    <p>お困りの内容をサポート窓口へお寄せください。担当より順次ご案内します。</p>
+  </div>
+  <a class="btn btn--ghost" href={href}>
+    <BrandIcon name="mail" />
+    お問い合わせ窓口へ
+  </a>
+</section>

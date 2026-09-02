@@ -1,0 +1,26 @@
+{
+  "name": "support-faq",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "volta": {
+    "node": "22.23.2"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@fontsource/noto-sans-jp": "^5.3.0",
+    "astro": "^7.2.10",
+    "astro-pagefind": "^2.0.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "typescript": "^6.0.3"
+  }
+}

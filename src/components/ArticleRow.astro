@@ -1,0 +1,16 @@
+---
+import BrandIcon from './BrandIcon.astro';
+import { url } from '../lib/url';
+import type { FaqEntry } from '../lib/faq';
+interface Props {
+  entry: FaqEntry;
+}
+const { entry } = Astro.props;
+---
+<a class="article-row" href={url(`/faq/${entry.id}`)}>
+  <span class="article-row__body">
+    <span class="article-row__title">{entry.data.title}</span>
+    <span class="article-row__summary">{entry.data.summary}</span>
+  </span>
+  <BrandIcon name="arrow-right" class="article-row__arrow" />
+</a>

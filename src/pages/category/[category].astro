@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ArticleRow from '../../components/ArticleRow.astro';
+import ContactCta from '../../components/ContactCta.astro';
+import BrandIcon from '../../components/BrandIcon.astro';
+import { url } from '../../lib/url';
+import { categories, getCategory, CATEGORY_IDS, type CategoryId } from '../../data/categories';
+import { getPublishedFaq, getByCategory } from '../../lib/faq';
+
+export function getStaticPaths() {
+  return CATEGORY_IDS.map((id) => ({ params: { category: id } }));
+}
+
+const category = getCategory(Astro.params.category as CategoryId);
+const faqs = await getPublishedFaq();
+const items = getByCategory(faqs, category.id);
+---
+<BaseLayout
+  title={category.name}
+  description={`${category.name}に関するよくあるご質問。${category.description}`}
+>
+  <section class="section section--tight">
+    <div class="container">
+      <Breadcrumbs
+        items={[
+          { label: 'ホーム', href: '/' },
+          { label: 'カテゴリ', href: '/#categories' },
+          { label: category.name },
+        ]}
+      />
+
+      <div class="page-head">
+        <h1 class="page-head__title">
+          <span class="page-head__icon"><BrandIcon name={category.icon} /></span>
+          {category.name}
+        </h1>
+        <p class="page-head__desc">{category.description}</p>
+      </div>
+
+      <nav class="cat-nav" aria-label="カテゴリ切り替え">
+        {categories.map((c) => (
+          <a
+            class="chip"
+            href={url(`/category/${c.id}`)}
+            aria-current={c.id === category.id ? 'page' : undefined}
+            style={c.id === category.id
+              ? 'border-color:var(--ory-green);color:var(--ory-green-ink)'
+              : undefined}
+          >
+            {c.name}
+          </a>
+        ))}
+      </nav>
+
+      {items.length > 0 ? (
+        <div class="article-list">
+          {items.map((e) => <ArticleRow entry={e} />)}
+        </div>
+      ) : (
+        <p class="empty">このカテゴリの記事は準備中です。</p>
+      )}
+
+      <div style="margin-top:2.4rem;">
+        <ContactCta />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

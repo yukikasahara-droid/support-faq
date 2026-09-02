@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SearchForm from '../components/SearchForm.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import ContactCta from '../components/ContactCta.astro';
+import BrandIcon from '../components/BrandIcon.astro';
+import { url } from '../lib/url';
+import { categories } from '../data/categories';
+import { getPublishedFaq, getFeatured, countByCategory } from '../lib/faq';
+
+const faqs = await getPublishedFaq();
+const featured = getFeatured(faqs, 6);
+const counts = countByCategory(faqs);
+---
+<BaseLayout
+  title="よくあるご質問（FAQ）"
+  description="Ory（オリィ研究所）製品のよくあるご質問。電源・接続・操作・修理などの解決方法を、検索とカテゴリからお探しいただけます。"
+>
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">Support / FAQ</p>
+      <h1 class="hero__title">どのようなことに<br />お困りですか？</h1>
+      <p class="hero__lead">キーワードで検索するか、カテゴリからお探しください。</p>
+      <SearchForm />
+      <p class="search-hints">
+        <span>よく検索される:</span>
+        <a href={url('/search?q=電源')}>電源が入らない</a>
+        <a href={url('/search?q=Wi-Fi')}>Wi-Fi 接続</a>
+        <a href={url('/search?q=修理')}>修理</a>
+      </p>
+    </div>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section section--tight">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Popular</p>
+          <h2 class="section-title">注目のよくあるご質問</h2>
+        </div>
+        <div class="accordion">
+          {featured.map((e) => (
+            <details class="faq-item" name="featured-faq">
+              <summary>
+                <span class="faq-item__q"><span class="qmark">Q.</span>{e.data.title}</span>
+                <BrandIcon name="chevron-down" class="faq-item__chevron" />
+              </summary>
+              <div class="faq-item__body">
+                <p>{e.data.summary}</p>
+                <a class="faq-item__more" href={url(`/faq/${e.id}`)}>
+                  詳しく見る <BrandIcon name="arrow-right" size={15} />
+                </a>
+              </div>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section" id="categories">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Categories</p>
+        <h2 class="section-title">カテゴリから探す</h2>
+      </div>
+      <div class="card-grid">
+        {categories.map((c) => <CategoryCard category={c} count={counts[c.id]} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="container">
+      <ContactCta />
+    </div>
+  </section>
+</BaseLayout>

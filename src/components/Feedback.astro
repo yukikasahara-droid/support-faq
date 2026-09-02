@@ -1,0 +1,32 @@
+---
+import BrandIcon from './BrandIcon.astro';
+/**
+ * 「役に立ちましたか？」フィードバック。
+ * ※現状は画面上の確認のみ（送信先は未接続）。実運用では計測基盤へ送信する。
+ */
+---
+<section class="feedback" data-feedback>
+  <p class="feedback__q">この記事は役に立ちましたか？</p>
+  <div class="feedback__btns" role="group" aria-label="この記事の評価">
+    <button type="button" class="feedback__btn" data-fb="yes" aria-pressed="false">
+      <BrandIcon name="check" size={16} /> はい
+    </button>
+    <button type="button" class="feedback__btn" data-fb="no" aria-pressed="false">
+      いいえ
+    </button>
+  </div>
+  <p class="feedback__thanks" hidden>フィードバックをありがとうございます。</p>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-feedback]').forEach((el) => {
+    const thanks = el.querySelector<HTMLElement>('.feedback__thanks');
+    const btns = el.querySelectorAll<HTMLButtonElement>('[data-fb]');
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btns.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        if (thanks) thanks.hidden = false;
+      });
+    });
+  });
+</script>

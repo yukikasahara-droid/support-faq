@@ -1,0 +1,16 @@
+---
+import BrandIcon from './BrandIcon.astro';
+import { url } from '../lib/url';
+import type { Category } from '../data/categories';
+interface Props {
+  category: Category;
+  count: number;
+}
+const { category, count } = Astro.props;
+---
+<a class="category-card" href={url(`/category/${category.id}`)}>
+  <span class="category-card__icon"><BrandIcon name={category.icon} /></span>
+  <span class="category-card__name">{category.name}</span>
+  <span class="category-card__desc">{category.description}</span>
+  <span class="category-card__count"><b>{count}</b>&nbsp;件の記事</span>
+</a>

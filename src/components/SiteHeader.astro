@@ -1,0 +1,20 @@
+---
+import BrandLogo from './BrandLogo.astro';
+import BrandIcon from './BrandIcon.astro';
+import { url } from '../lib/url';
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <BrandLogo href="/" subtitle="よくあるご質問" />
+    <nav class="header-nav" aria-label="ヘッダーナビゲーション">
+      <span class="header-nav__links">
+        <a href={url('/#categories')}>カテゴリ</a>
+        <a href={url('/#contact')}>お問い合わせ</a>
+      </span>
+      <a class="header-nav__search" href={url('/search')}>
+        <BrandIcon name="search" />
+        <span>検索</span>
+      </a>
+    </nav>
+  </div>
+</header>

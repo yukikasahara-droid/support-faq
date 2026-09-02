@@ -1,0 +1,33 @@
+---
+/**
+ * ブランドロゴのロックアップ（マーク＋ワードマーク）。
+ * ※マークは提案用の暫定プレースホルダー。確定時は公式ロゴSVG（変形・色変更不可）に差し替える。
+ */
+import { url } from '../lib/url';
+interface Props {
+  href?: string;
+  subtitle?: string;
+  class?: string;
+}
+const { href = '/', subtitle = 'よくあるご質問', class: cls = '' } = Astro.props;
+---
+<a class={`brand ${cls}`} href={url(href)} aria-label={`Ory サポート ${subtitle}`}>
+  <span class="brand__mark" aria-hidden="true">
+    <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M20.5 16.4C13.8 16.4 9 21.2 9 28.4c0 1.5.2 2.6.6 3.5.2.5.7.8 1.2.8h19.4c.5 0 1-.3 1.2-.8.4-.9.6-2 .6-3.5 0-7.2-4.8-12-11.5-12z"
+        fill="currentColor"
+      />
+      <circle cx="23.4" cy="10" r="5" fill="currentColor" />
+      <path
+        d="M9.9 13.2c3-3.9 7-5.2 11.1-4.3-3.5.2-6.3 2.1-8.2 5.6-.9 1.6-3.9.3-2.9-1.3z"
+        fill="currentColor"
+        opacity="0.5"
+      />
+    </svg>
+  </span>
+  <span class="brand__text">
+    <span class="brand__name">Ory <span style="font-weight:500">サポート</span></span>
+    <span class="brand__sub">{subtitle}</span>
+  </span>
+</a>
