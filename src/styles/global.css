@@ -252,9 +252,18 @@ main { flex: 1 0 auto; }
 }
 .header-nav a { color: var(--body); font-weight: 500; white-space: nowrap; }
 .header-nav a:hover { color: var(--ory-green-ink); }
+.header-nav__ext::after { content: "↗"; font-size: 0.85em; margin-left: 0.15em; color: var(--muted); }
+.ext-short { display: none; }
 @media (max-width: 640px) {
-  .header-nav { gap: 1rem; font-size: 0.82rem; }
+  .header-nav { gap: 0.6rem; font-size: 0.72rem; }
   .brand__sub { display: none; }
+  .brand__name { font-size: 1rem; }
+  .brand__mark { width: 28px; height: 28px; }
+  .ext-full { display: none; }
+  .ext-short { display: inline; }
+}
+@media (max-width: 380px) {
+  .header-nav { gap: 0.5rem; font-size: 0.68rem; }
 }
 
 /* アンカー(#categories / #contact)へのジャンプが sticky ヘッダーに隠れず、上に余白も残さない */
@@ -707,7 +716,7 @@ a.chip:hover { border-color: var(--ory-green); color: var(--ory-green-ink); }
   display: grid;
   gap: 2rem;
   padding-block: clamp(2.2rem, 1.6rem + 2vw, 3rem);
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.6fr 1fr 1fr 1fr;
 }
 @media (max-width: 720px) { .site-footer__inner { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 480px) { .site-footer__inner { grid-template-columns: 1fr; } }
@@ -729,9 +738,27 @@ a.chip:hover { border-color: var(--ory-green); color: var(--ory-green-ink); }
 .footer-col ul { display: flex; flex-direction: column; gap: 0.55rem; font-size: var(--fs-small); }
 .footer-col a { color: var(--body); }
 .footer-col a:hover { color: var(--ory-green-ink); }
-.footer-bottom {
+
+.footer-social { display: flex; gap: 0.7rem; }
+.footer-social a { color: var(--muted); display: inline-flex; transition: color var(--transition); }
+.footer-social a:hover { color: var(--ory-green-ink); }
+.footer-social svg { width: 22px; height: 22px; }
+.footer-follow-note { margin-top: 0.7rem; font-size: var(--fs-caption); color: var(--muted); }
+
+/* 法律バー（プライバシー・利用規約・特商法・運営会社） */
+.footer-legal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+  padding-block: 1rem;
   border-top: 1px solid var(--border);
-  padding-block: 1.1rem;
+  font-size: var(--fs-caption);
+}
+.footer-legal a { color: var(--body); }
+.footer-legal a:hover { color: var(--ory-green-ink); }
+
+.footer-bottom {
+  padding-block: 0.2rem 1.2rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.6rem 1.2rem;

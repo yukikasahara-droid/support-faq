@@ -1,9 +1,12 @@
 ---
 import BrandLogo from './BrandLogo.astro';
 import { url } from '../lib/url';
-import { categories } from '../data/categories';
 const year = new Date().getFullYear();
-const footerCats = categories.slice(0, 5);
+
+// 仮実装：外部/法務系リンクはプレースホルダ（本番で要差し替え）。
+const OFFICIAL = 'https://orylab.com/'; // OriHime公式サイト・運営会社（暫定）
+const CONTACT = 'https://orylab.com/support-form/'; // お問い合わせ窓口（テキストルール記載のURL）
+const TODO = '#'; // 要差し替え
 ---
 <footer class="site-footer">
   <div class="container site-footer__inner">
@@ -15,28 +18,51 @@ const footerCats = categories.slice(0, 5);
     </div>
 
     <div class="footer-col">
-      <p class="footer-col__title">カテゴリ</p>
+      <p class="footer-col__title">サポート</p>
       <ul>
-        {footerCats.map((c) => (
-          <li><a href={url(`/category/${c.id}`)}>{c.name}</a></li>
-        ))}
+        <li><a href={url('/#categories')}>よくあるご質問</a></li>
+        <li><a href={TODO}>使い方・マニュアル</a></li>
+        <li><a href={CONTACT} target="_blank" rel="noopener">お問い合わせ</a></li>
       </ul>
     </div>
 
     <div class="footer-col">
-      <p class="footer-col__title">サポート</p>
+      <p class="footer-col__title">製品・会社</p>
       <ul>
-        <li><a href={url('/search')}>FAQを検索</a></li>
-        <li><a href={url('/#contact')}>お問い合わせ</a></li>
-        <li><a href={url('/#categories')}>カテゴリ一覧</a></li>
+        <li><a href={OFFICIAL} target="_blank" rel="noopener">OriHime公式サイト</a></li>
+        <li><a href={TODO}>製品情報</a></li>
+        <li><a href={TODO}>導入事例</a></li>
+        <li><a href={OFFICIAL} target="_blank" rel="noopener">運営会社（オリィ研究所）</a></li>
       </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-col__title">フォロー</p>
+      <div class="footer-social">
+        <a href={TODO} aria-label="X（旧Twitter）">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        </a>
+        <a href={TODO} aria-label="YouTube">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.11-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.39.52A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12a31.3 31.3 0 0 0 .5 5.8 3 3 0 0 0 2.11 2.13c1.89.52 9.39.52 9.39.52s7.5 0 9.39-.52a3 3 0 0 0 2.11-2.13A31.3 31.3 0 0 0 24 12a31.3 31.3 0 0 0-.5-5.8zM9.6 15.6V8.4l6.24 3.6z"/></svg>
+        </a>
+        <a href={TODO} aria-label="Instagram">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.06 1.8.25 2.23.42.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.05.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.18.25-1.81.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.17 1.06-.36 2.23-.42C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.38C1.36 2.67.94 3.34.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.12.66.66 1.33 1.08 2.12 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56a5.88 5.88 0 0 0 2.12-1.38 5.88 5.88 0 0 0 1.38-2.12c.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.88 5.88 0 0 0-1.38-2.12A5.88 5.88 0 0 0 19.86.63c-.76-.3-1.64-.5-2.91-.56C15.67.01 15.26 0 12 0zm0 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4zm6.41-11.85a1.44 1.44 0 1 0 1.44 1.44 1.44 1.44 0 0 0-1.44-1.44z"/></svg>
+        </a>
+      </div>
+      <p class="footer-follow-note">最新情報をお届けします。</p>
     </div>
   </div>
 
   <div class="container">
+    <nav class="footer-legal" aria-label="法的情報・会社情報">
+      <a href={TODO}>プライバシーポリシー</a>
+      <a href={TODO}>利用規約</a>
+      <a href={TODO}>特定商取引法に基づく表記</a>
+      <a href={OFFICIAL} target="_blank" rel="noopener">運営会社</a>
+    </nav>
     <div class="footer-bottom">
       <span>© {year} Ory Lab Inc.</span>
-      <span class="footer-sample-note">サンプルサイト（提案用たたき台）</span>
+      <span class="footer-sample-note">サンプルサイト（提案用たたき台・一部リンクはプレースホルダ）</span>
     </div>
   </div>
 </footer>
