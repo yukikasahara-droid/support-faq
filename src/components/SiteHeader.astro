@@ -7,7 +7,11 @@ import { url } from '../lib/url';
     <BrandLogo href="/" subtitle="よくあるご質問" />
     <nav class="header-nav" aria-label="ヘッダーナビゲーション">
       <a href={url('/#categories')}>カテゴリ</a>
+      <a href={url('/search')}>検索</a>
       <a href={url('/#contact')}>お問い合わせ</a>
+      <a class="header-nav__ext" href="https://orylab.com/" target="_blank" rel="noopener">
+        <span class="ext-full">OriHime公式サイト</span><span class="ext-short">公式サイト</span>
+      </a>
     </nav>
   </div>
 </header>
