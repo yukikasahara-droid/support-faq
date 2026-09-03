@@ -250,22 +250,16 @@ main { flex: 1 0 auto; }
   gap: 1.5rem;
   font-size: var(--fs-small);
 }
-.header-nav a { color: var(--body); font-weight: 500; }
-.header-nav__search {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.5rem 0.9rem;
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-pill);
-  color: var(--muted);
-  transition: border-color var(--transition), color var(--transition);
-}
-.header-nav__search:hover { border-color: var(--ory-green); color: var(--body); }
-.header-nav__search svg { width: 16px; height: 16px; }
+.header-nav a { color: var(--body); font-weight: 500; white-space: nowrap; }
+.header-nav a:hover { color: var(--ory-green-ink); }
 @media (max-width: 640px) {
-  .header-nav__links { display: none; }
+  .header-nav { gap: 1rem; font-size: 0.82rem; }
+  .brand__sub { display: none; }
 }
+
+/* アンカー(#categories / #contact)へのジャンプが sticky ヘッダーに隠れず、上に余白も残さない */
+#categories,
+#contact { scroll-margin-top: 5.25rem; }
 
 /* -------------------------------------------------------------- ヒーロー */
 .hero {
