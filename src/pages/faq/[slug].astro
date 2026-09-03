@@ -4,7 +4,6 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ArticleRow from '../../components/ArticleRow.astro';
 import Feedback from '../../components/Feedback.astro';
-import ContactCta from '../../components/ContactCta.astro';
 import BrandIcon from '../../components/BrandIcon.astro';
 import { url } from '../../lib/url';
 import { getCategory } from '../../data/categories';
@@ -51,7 +50,7 @@ const jsonLd = {
         ]}
       />
 
-      <article data-pagefind-body data-pagefind-filter={`カテゴリ:${category.name}`} data-article={entry.id}>
+      <article data-pagefind-body data-pagefind-filter={`カテゴリ:${category.name}`} data-article={entry.id} data-category={entry.data.category}>
         <header class="article-header">
           <h1 class="article-title">{entry.data.title}</h1>
           <div class="article-meta" data-pagefind-ignore>
@@ -67,26 +66,29 @@ const jsonLd = {
         </div>
 
         <div data-pagefind-ignore>
-          <Feedback article={entry.id} />
           {related.length > 0 && (
             <section class="related">
               <h2 class="related__title">関連するご質問</h2>
+              <p class="related__lead" style="color:var(--muted);font-size:var(--fs-small);margin:-0.2rem 0 0.9rem;">
+                解決しない場合は、こちらの関連する質問もお試しください。
+              </p>
               <div class="article-list">
                 {related.map((e) => <ArticleRow entry={e} />)}
               </div>
             </section>
           )}
-          <ContactCta />
+          <Feedback article={entry.id} />
         </div>
       </article>
     </div>
   </section>
 
   <script>
-    // 記事閲覧を計測（記事IDは article[data-article] から取得）
+    // 記事閲覧を計測（記事ID・カテゴリを article 要素から取得）
     import { track } from '../../lib/track';
     const el = document.querySelector('article[data-article]');
     const article = el?.getAttribute('data-article') ?? undefined;
-    if (article) track('view', { article });
+    const category = el?.getAttribute('data-category') ?? undefined;
+    if (article) track('view', { article, meta: category ? { category } : undefined });
   </script>
 </BaseLayout>
