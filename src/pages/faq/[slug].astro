@@ -51,7 +51,7 @@ const jsonLd = {
         ]}
       />
 
-      <article data-pagefind-body data-pagefind-filter={`カテゴリ:${category.name}`}>
+      <article data-pagefind-body data-pagefind-filter={`カテゴリ:${category.name}`} data-article={entry.id}>
         <header class="article-header">
           <h1 class="article-title">{entry.data.title}</h1>
           <div class="article-meta" data-pagefind-ignore>
@@ -67,7 +67,7 @@ const jsonLd = {
         </div>
 
         <div data-pagefind-ignore>
-          <Feedback />
+          <Feedback article={entry.id} />
           {related.length > 0 && (
             <section class="related">
               <h2 class="related__title">関連するご質問</h2>
@@ -81,4 +81,12 @@ const jsonLd = {
       </article>
     </div>
   </section>
+
+  <script>
+    // 記事閲覧を計測（記事IDは article[data-article] から取得）
+    import { track } from '../../lib/track';
+    const el = document.querySelector('article[data-article]');
+    const article = el?.getAttribute('data-article') ?? undefined;
+    if (article) track('view', { article });
+  </script>
 </BaseLayout>

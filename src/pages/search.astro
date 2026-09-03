@@ -65,4 +65,41 @@ const pagefindBundle = url('/pagefind/'); // 例: "/support-faq/pagefind/"
       }
     });
   </script>
+
+  <script>
+    // 検索の計測: 検索語・件数・ゼロ件（PagefindUI の描画を監視）＋ 結果クリック。
+    import { track } from '../lib/track';
+    const root = document.getElementById('search');
+    if (root) {
+      let lastLogged = '';
+      let timer: number | undefined;
+      const currentQuery = () =>
+        (root.querySelector('.pagefind-ui__search-input') as HTMLInputElement | null)?.value.trim() ?? '';
+      const logSearch = () => {
+        const q = currentQuery();
+        if (!q) return;
+        const msg = root.querySelector('.pagefind-ui__message')?.textContent ?? '';
+        const zero = /見つかりません/.test(msg);
+        const m = msg.replace(/,/g, '').match(/(\d+)\s*件/);
+        const count = zero ? 0 : m ? Number(m[1]) : root.querySelectorAll('.pagefind-ui__result').length;
+        const key = `${q}|${count}`;
+        if (key === lastLogged) return;
+        lastLogged = key;
+        track('search', { query: q, result_count: count, zero_result: zero });
+      };
+      const observer = new MutationObserver(() => {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(logSearch, 700);
+      });
+      observer.observe(root, { childList: true, subtree: true });
+      root.addEventListener('click', (e) => {
+        const a = (e.target as HTMLElement).closest('a') as HTMLAnchorElement | null;
+        if (!a || !a.href.includes('/faq/')) return;
+        let article = a.getAttribute('href') ?? '';
+        const mm = article.match(/\/faq\/([^/?#]+)/);
+        if (mm) article = mm[1];
+        track('result_click', { query: currentQuery(), article });
+      });
+    }
+  </script>
 </BaseLayout>
