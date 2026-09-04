@@ -644,6 +644,29 @@ a.chip:hover { border-color: var(--ory-green); color: var(--ory-green-ink); }
 }
 .prose blockquote p { margin: 0; }
 
+/* 記事内の表（世代別の手順など）。狭い画面では横スクロール */
+.prose table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 1.2rem 0;
+  font-size: var(--fs-small);
+}
+.prose th,
+.prose td {
+  border: 1px solid var(--border);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th {
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
 /* 補足ブロック(Markdownでは > で表現、装飾は blockquote と同様) */
 
 /* -------------------------------------------------------------- フィードバック / 関連 / お問い合わせ */
