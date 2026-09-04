@@ -1,11 +1,11 @@
 ---
 title: OriHimeの再起動方法
-category: troubleshooting
+category: device-operation
 summary: 再起動は「OriHimeコントローラー」「OriHime設定アプリ」「本体の電源OFFボタン」の3通り。改善しないときは放電を伴う再起動を行います。第7・第8世代で手順が一部異なります。
-featured: false
-order: 15
+featured: true
+order: 10
 updated: 2026-08-25
-tags: [再起動, 電源, 放電, トラブル, 第7世代, 第8世代]
+tags: [トラブルシューティング]
 ---
 
 OriHimeの再起動方法について。

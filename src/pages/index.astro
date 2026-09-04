@@ -24,9 +24,9 @@ const counts = countByCategory(faqs);
       <SearchForm />
       <p class="search-hints">
         <span>よく検索される:</span>
-        <a href={url('/search?q=電源')}>電源が入らない</a>
-        <a href={url('/search?q=Wi-Fi')}>Wi-Fi 接続</a>
-        <a href={url('/search?q=修理')}>修理</a>
+        <a href={url('/search?q=再起動')}>再起動の方法</a>
+        <a href={url('/search?q=ネットワーク')}>ネットワーク要件</a>
+        <a href={url('/search?q=動作が不安定')}>動作が不安定</a>
       </p>
     </div>
   </section>
@@ -65,7 +65,9 @@ const counts = countByCategory(faqs);
         <h2 class="section-title">カテゴリから探す</h2>
       </div>
       <div class="card-grid">
-        {categories.map((c) => <CategoryCard category={c} count={counts[c.id]} />)}
+        {categories
+          .filter((c) => counts[c.id] > 0)
+          .map((c) => <CategoryCard category={c} count={counts[c.id]} />)}
       </div>
     </div>
   </section>
